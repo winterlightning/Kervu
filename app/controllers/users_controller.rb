@@ -97,7 +97,7 @@ class UsersController < BaseController
     render :layout => false
   end
   
-  def craigslist  
+  def craigslistView  
     @friend_count               = @user.accepted_friendships.count
     @accepted_friendships       = @user.accepted_friendships.find(:all, :limit => 5).collect{|f| f.friend }
     @pending_friendships_count  = @user.pending_friendships.count()
