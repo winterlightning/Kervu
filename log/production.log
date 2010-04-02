@@ -1,0 +1,55 @@
+
+
+Processing UsersController#index (for 74.66.24.51 at 2010-02-10 02:50:56) [GET]
+
+ActiveRecord::StatementInvalid (Could not find table 'users'):
+  /usr/lib/ruby/gems/1.8/gems/aws-s3-0.6.2/lib/aws/s3/extensions.rb:166:in `returning'
+  vendor/plugins/community_engine/plugins/paginating_find/lib/paginating_find.rb:67:in `find'
+  vendor/plugins/community_engine/app/models/user.rb:94:in `find'
+  vendor/plugins/community_engine/app/controllers/users_controller.rb:62:in `index'
+  haml (2.2.19) lib/sass/plugin/rails.rb:19:in `process'
+
+Rendering /home/ray/CommunityEngine/test/public/500.html (500 Internal Server Error)
+
+
+Processing UsersController#show to ico (for 74.66.24.51 at 2010-02-10 02:50:57) [GET]
+  Parameters: {"id"=>"favicon"}
+
+ActiveRecord::StatementInvalid (Could not find table 'users'):
+  /usr/lib/ruby/gems/1.8/gems/aws-s3-0.6.2/lib/aws/s3/extensions.rb:166:in `returning'
+  vendor/plugins/community_engine/app/models/user.rb:92:in `find'
+  vendor/plugins/community_engine/app/controllers/base_controller.rb:81:in `find_user'
+  haml (2.2.19) lib/sass/plugin/rails.rb:19:in `process'
+
+Rendering /home/ray/CommunityEngine/test/public/500.html (500 Internal Server Error)
+
+
+Processing BaseController#site_index (for 74.66.24.51 at 2010-02-10 02:51:01) [GET]
+
+ActiveRecord::StatementInvalid (Could not find table 'users'):
+  /usr/lib/ruby/gems/1.8/gems/aws-s3-0.6.2/lib/aws/s3/extensions.rb:166:in `returning'
+  authlogic (2.1.3) lib/authlogic/session/scopes.rb:95:in `send'
+  authlogic (2.1.3) lib/authlogic/session/scopes.rb:95:in `search_for_record'
+  authlogic (2.1.3) lib/authlogic/session/scopes.rb:94:in `send'
+  authlogic (2.1.3) lib/authlogic/session/scopes.rb:94:in `search_for_record'
+  authlogic (2.1.3) lib/authlogic/session/cookies.rb:108:in `persist_by_cookie'
+  authlogic (2.1.3) lib/authlogic/session/callbacks.rb:79:in `persist'
+  authlogic (2.1.3) lib/authlogic/session/persistence.rb:55:in `persisting?'
+  authlogic (2.1.3) lib/authlogic/session/persistence.rb:39:in `find'
+  vendor/plugins/community_engine/app/controllers/base_controller.rb:15:in `cache_action?'
+  vendor/plugins/community_engine/app/controllers/base_controller.rb:13
+  haml (2.2.19) lib/sass/plugin/rails.rb:19:in `process'
+
+Rendering /home/ray/CommunityEngine/test/public/500.html (500 Internal Server Error)
+
+
+Processing UsersController#show to ico (for 74.66.24.51 at 2010-02-10 02:51:02) [GET]
+  Parameters: {"id"=>"favicon"}
+
+ActiveRecord::StatementInvalid (Could not find table 'users'):
+  /usr/lib/ruby/gems/1.8/gems/aws-s3-0.6.2/lib/aws/s3/extensions.rb:166:in `returning'
+  vendor/plugins/community_engine/app/models/user.rb:92:in `find'
+  vendor/plugins/community_engine/app/controllers/base_controller.rb:81:in `find_user'
+  haml (2.2.19) lib/sass/plugin/rails.rb:19:in `process'
+
+Rendering /home/ray/CommunityEngine/test/public/500.html (500 Internal Server Error)

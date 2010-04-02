@@ -1,0 +1,16 @@
+<ul id="nav"> 
+		<ul>
+		<% if logged_in? %>
+			<%= render :partial => 'shared/user_menu_custom' %>
+			<% if current_user.unread_messages? %>
+				<li><%= link_to :unread_messages.l(:count => current_user.unread_message_count), user_messages_path(current_user) %><li>
+			<% end %>
+		<% else %>
+			<li><%=link_to :log_in.l, login_path %></li>
+			<li><%= link_to :sign_up.l, signup_path  %></li>
+		<% end %>
+	<% if current_user %> 
+    <%= topnav_tab :my_profile.l, { :url => user_path(current_user), :section => 'my_profile'} %>  
+	<% end %>  
+	<li><a href="contact.html">Contact Us</a></li>              
+</ul> 

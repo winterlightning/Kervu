@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<title><%= @user.Name %>-<%= @user.Profession %></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<meta name="description" content="<%= "#{@user.login}'s profile on #{AppConfig.community_name}." %>" />
+	<meta name="keywords" content="<%= "#{@user.login}, #{@user.tags.join(", ") unless @user.tags.nil?}" %>" />
+	
+	<!-- //////// Favicon ////////  -->
+	
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"  />
+	
+	<!-- //////// Css StyleSheets ////////  -->
+	
+	<link href="/cv/css/screen-style.css" rel="stylesheet" type="text/css" />
+	<link href="/cv/css/print-style.css" rel="stylesheet" type="text/css" media="print" />
+	
+	<!--[if lt IE 7]>
+	<script type="text/javascript" src="_layout/js/DD_belatedPNG_0.0.7a-min.js"></script>
+	<script type="text/javascript">
+
+	</script>
+	<![endif]-->
+	
+	<!-- //////// jQuery ////////  -->
+	
+	<script src="/cv/js/jquery-1.3.1.min.js" type="text/javascript"></script>
+
+	<!-- //////// Cufon Font Replacement ////////  -->
+	
+	<script src="/cv/js/cufon-yui.js" type="text/javascript"></script>
+	<script src="/cv/js/Aller.font.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/beach/javascripts/lubalindemi.font.js"></script> 
+	<script type="text/javascript" src="/beach/javascripts/delicious.font.js"></script> 
+	<script type="text/javascript">
+		Cufon.replace('h1', { fontFamily: 'delicious', hover: 'true' });
+		Cufon.replace('h2', { fontFamily: 'delicious', hover: 'true' });
+		Cufon.replace('.item h2');
+		Cufon.replace('h2.cv-section-name', { fontFamily: 'delicious', hover: 'true' });
+	</script>
+	
+	<!-- //////// FancyBox - jQuery powered Lightbox ////////  -->
+	
+	<link rel="stylesheet" type="text/css" href="/cv/js/fancybox/jquery.fancybox-1.2.6.css" media="screen" />
+	<script type="text/javascript" src="/cv/js/fancybox/jquery.fancybox-1.2.6.pack.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a.lightbox").fancybox({
+				'overlayOpacity': 0.7,
+				'overlayColor'	: '#333'
+			});
+		});
+	</script>
+	 
+	<!-- //////// Tipsy - custom Tooltips ////////  -->
+	
+	<link rel="stylesheet" type="text/css" href="/cv/js/tipsy/tipsy.css" />
+	<script type="text/javascript" src="/cv/js/tipsy/jquery.tipsy.js"></script>
+	<script type='text/javascript'>
+	  $(function() {
+		$('.tip').tipsy({gravity: 'n'});
+	  });
+	</script>
+	
+	<!-- //////// Email Me Panel Animation ////////  -->
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".emailme").click(function(){
+				$(".panel").toggle("fast");
+				$(this).toggleClass("active");
+				return false;
+			});
+		});
+	</script>
+	
+	<!-- //////// Contact Form ////////  -->
+	
+	<script type="text/javascript">                                         
+	/* <![CDATA[ */
+		$(document).ready(function(){ // sends the data filled in the contact form to the php file and shows a message
+			$("#contact-form").submit(function(){
+				var str = $(this).serialize();
+				$.ajax({
+				   type: "POST",
+				   url: "_layout/php/send.php",
+				   data: str,
+				   success: function(msg)
+				   {
+						$("#formstatus").ajaxComplete(function(event, request, settings){
+							if(msg == 'OK'){ // Message Sent? Show the 'Thank You' message and hide the form
+								result = '<div class="formstatusok">Your message has been sent. Thank you!</div>';
+								$("#fields").hide();
+							}
+							else{
+								result = msg;
+							}
+							$(this).html(result);
+						});
+					}
+				
+				 });
+				return false;
+			});
+		});
+	/* ]]> */	
+	</script>  
+		
+</head>
+<body>
+	
+	<div id = "editcv">
+	<% if logged_in? %>
+			( <%= link_to :edit_profile.l, edit_user_path(current_user) %> )
+	<% else %>
+			( <%=link_to :log_in.l, login_path %> to edit profile )
+	<% end %>
+	</div>
+	<div id="cv">
+
+		<!-- // ABOUT ME /////////////////////////////////////////////////////////////////// -->
+		
+		<div class="cv-section first-cv-section fixed">
+		
+			<div class="person">
+				<%= image_tag( @user.avatar_photo_url(:medium), :class => "polaroid")%>
+				<h1><%= @user.Name %></h1>
+				<h2><%= @user.Profession %></h2>
+			</div>
+			
+			<div id="contact-info">
+				<ul id="social-media">
+					<li><a href="#" title="Flickr Profile" class="tip"><img src="/cv/images/social-icons/flickr.png" alt="flickr icon" /></a></li>
+					<li><a href="#" title="Twitter Profile" class="tip"><img src="/cv/images/social-icons/twitter.png" alt="twitter icon" /></a></li>
+					<li><a href="#" title="Facebook Profile" class="tip"><img src="/cv//images/social-icons/facebook.png" alt="facebook icon" /></a></li>
+					<li><a href="#" title="Linked InProfile" class="tip"><img src="/cv//images/social-icons/linkedin.png"  alt="linkedin icon"/></a></li>
+					<li><a href="#" title="Send me a message" class="tip"><img src="/cv/images/social-icons/yahoo.png"  alt="contact me"/></a></li>
+				</ul>
+				<ul>
+					<li>e: <a href="<%= @user.email %>"><%= @user.email %></a></li>
+					<li>p: <%= @user.Phone %></li>
+				</ul>
+			</div>
+	
+		</div><!-- end .cv-section -->
+
+		<!-- // Services and Rates //////////////////////////////////////////////////////// -->
+		<div class="cv-section fixed">
+		
+			<h2 class="cv-section-name">Services and Rates</h2>
+			
+			<div class="cv-section-items">
+				
+				<% @user.services.each do |service| %>
+				
+					<% if service == @user.services.last %>
+					<div class="item last-item">
+						<h2>$<%= service.rate %> <%= service.title %></h2>
+						<br />
+						<%= service.description %>
+					</div><!-- end .item -->
+					<% else %>
+					<div class="item">
+						<h2>$<%= service.rate %> <%= service.title %></h2>
+						<br />
+						<%= service.description %>
+					</div><!-- end .item -->
+					<% end %>
+									
+				<% end %>
+				
+			</div><!-- end .cv-section-items -->
+			
+		</div><!-- end .cv-section -->
+		
+		
+		<!-- // PROFESIONAL PROFILE //////////////////////////////////////////////////////// -->
+		
+		<div class="cv-section fixed">
+		
+			<h2 class="cv-section-name">Professional Profile</h2>
+			
+			<div class="cv-section-items">
+				
+				<div class="item last-item">
+					<%= @user.description %>
+				</div><!-- end .item -->
+				
+			</div><!-- end .cv-section-items -->
+			
+		</div><!-- end .cv-section -->
+		
+		<!-- // WORK EXPERINCE /////////////////////////////////////////////////////////// -->
+		
+		<div class="cv-section fixed">
+		
+			<h2 class="cv-section-name">Experiences</h2>
+			
+			<div class="cv-section-items">
+				
+				<% @user.experiences.each do |experience| %>
+				
+					<% if experience == @user.experiences.last %>
+					<div class="item last-item">
+						<h4><%= "#{Date::MONTHNAMES[experience.start.mon]} #{experience.start.year}" %> - <%= "#{Date::MONTHNAMES[experience.end.mon]} #{experience.end.year}" %></h4>
+						<h2><%= experience.title %></h2>
+						<h3><%= experience.location %></h3>
+						<br />
+						<%= experience.description %>
+					</div><!-- end .item -->
+					<% else %>
+					<div class="item">
+						<h4><%= "#{Date::MONTHNAMES[experience.start.mon]} #{experience.start.year}" %> - <%= "#{Date::MONTHNAMES[experience.end.mon]} #{experience.end.year}" %></h4>
+						<h2><%= experience.title %></h2>
+						<h3><%= experience.location %></h3>
+						<br />
+						<%= experience.description %>
+					</div><!-- end .item -->
+					<% end %>
+									
+				<% end %>
+				
+			</div><!-- end .cv-section-items -->
+			
+		</div><!-- end .cv-section -->
+
+		<!-- // PROFESIONAL PROFILE //////////////////////////////////////////////////////// -->
+		
+		<div class="cv-section fixed">
+		
+			<h2 class="cv-section-name">Testimonials</h2>
+			
+			<div class="cv-section-items">
+				
+				<% @user.testimonials.each do |testimonial| %>
+				
+					<% if testimonial == @user.testimonials.last %>
+					<div class="item last-item">
+						<%= testimonial.testimonial %>
+						<br />
+						<h3><%= testimonial.customer %></h3>
+					</div><!-- end .item -->
+					<% else %>
+					<div class="item">
+						<%= testimonial.testimonial %>
+						<br />
+						<h3><%= testimonial.customer %></h3>
+					</div><!-- end .item -->
+					<% end %>
+									
+				<% end %>
+				
+			</div><!-- end .cv-section-items -->
+			
+		</div><!-- end .cv-section -->
+		
+		<!-- // Portfolio ////////////////////////////////////////////////////////////////// -->
+		
+		<div class="cv-section last-cv-section fixed">
+		
+			<h2 class="cv-section-name">Portfolio</h2>
+			
+			<div class="cv-section-items">
+				
+				<div class="item last-item">
+					<% @photos.each do |photo| %>
+						<%= link_to image_tag( photo.public_filename(:thumb), :class => "lightbox", :alt => photo.display_name), photo.public_filename, :class=>"lightbox", :rel=>"portfolio" %>
+					<% end %>
+				</div><!-- end .item -->
+				
+			</div><!-- end .cv-section-items -->
+			
+		</div><!-- end .cv-section -->
+				
+		<!-- ////////////////////////////////////////////////////////////////////////////// -->
+	
+	</div><!-- end #cv -->
+	
+	<div class="panel">
+		
+		<p id="formstatus"></p>
+		<form id="contact-form" action="javascript:alert('success!');">
+			<fieldset>
+				<p>
+					<input class="textbox" type="text" name="name" value="Name*"
+					onfocus="if(this.value=='Name*')this.value='';" onblur="if(this.value=='')this.value='Name*';" />
+				</p>
+				<p>
+					<input class="textbox" type="text" name="email" value="Email*"
+					onfocus="if(this.value=='Email*')this.value='';" onblur="if(this.value=='')this.value='Email*';" />
+				</p>
+				<p>
+					<input class="textbox" type="text" name="subject" value="Subject*"  
+					onfocus="if(this.value=='Subject*')this.value='';" onblur="if(this.value=='')this.value='Subject*';"/>
+				</p>
+				<p>
+					<textarea class="textbox" name="message" rows="3" cols="25"></textarea>
+				</p>
+				<p>
+					<input class="btn" type="submit" name="submit" value="Send!" />
+					<!--<input class="btn" type="reset" name="submit" value="Reset" />-->
+				</p>
+			</fieldset>
+		</form><!-- end #contact-form -->
+
+	</div><!-- end .panel -->
+	
+	<br />
+	<br />
+	
+	<a class="emailme" href="#">Email Me</a>
+
+	<script type="text/javascript"> Cufon.now(); </script>
+	<!-- analytics here -->
+	
+</body>
+</html>

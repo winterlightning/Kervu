@@ -1,0 +1,15 @@
+<div class="service nested">
+	<% fields_for "user[service_attributes][]", service do |service_form| %>
+	    <label>Title:</label> <%= service_form.text_field :title, :index => nil %>
+		<label>Description:</label> <%= service_form.text_area :description, :index => nil %>
+		<label>Rate:</label> <%= service_form.text_field :rate, :index => nil %>
+		<br />
+	    <% if service.new_record? %>
+			<%= link_to_function "Remove service", "$(this).up('.service').remove()" %>
+		<% else %>
+			<%= link_to_function "remove", "mark_for_destroy(this)" %>
+			<%= service_form.hidden_field :id, :index => nil %>
+			<%= service_form.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>
+		<% end %>		
+	<% end %>
+</div>

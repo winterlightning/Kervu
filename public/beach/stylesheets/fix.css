@@ -1,0 +1,52 @@
+.box h3 {
+	border-bottom:1px solid #EBEBEB;
+}
+
+/*	-------------------------------------------------------------
+	LINKS
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -	*/
+
+a {
+	color:#47add9;
+	margin: 0;
+	outline: 0; }
+ 
+a, a:visited, a:active {
+	text-decoration: none; }
+ 
+a:hover {
+	color: #484747;
+	text-decoration: none; }
+	
+	
+/* MAIN-CONTENT */
+#yui-main {
+	width:631px;
+	min-height:240px;
+	padding:10px 30px 30px 30px ;
+	margin:0;
+	border-right:1px solid #ebebeb;
+	border-left:1px solid #ebebeb;
+	overflow:hidden;
+	background:#fff; }
+
+* html #yui-main {
+	height:240px;
+	overflow:visible; }
+	
+#yui-main {
+	float:right; }
+
+#yui-main h1 {
+	font-size:3.4em;
+	letter-spacing:-4px;
+	text-transform:uppercase;
+	margin:0; }
+
+#yui-main h2 {
+	font-size:5.9em;
+	color:#919394;
+	font-weight:bold;
+	letter-spacing:-6px;
+	text-transform:uppercase;
+	margin:-13px 0 20px 0; }

@@ -134,6 +134,15 @@ ActiveRecord::Schema.define(:version => 20100210011008) do
     t.boolean  "allow_rsvp",    :default => true
   end
 
+  create_table "experiences", :force => true do |t|
+    t.integer "user_id"
+    t.string  "title"
+    t.text    "description"
+    t.date    "start"
+    t.date    "end"
+    t.string  "location",    :limit => 40
+  end
+
   create_table "favorites", :force => true do |t|
     t.datetime "updated_at"
     t.datetime "created_at"
@@ -321,6 +330,13 @@ ActiveRecord::Schema.define(:version => 20100210011008) do
   add_index "sb_posts", ["forum_id", "created_at"], :name => "index_sb_posts_on_forum_id"
   add_index "sb_posts", ["user_id", "created_at"], :name => "index_sb_posts_on_user_id"
 
+  create_table "services", :force => true do |t|
+    t.integer "user_id"
+    t.string  "title"
+    t.text    "description"
+    t.integer "rate"
+  end
+
   create_table "sessions", :force => true do |t|
     t.string   "sessid"
     t.text     "data"
@@ -355,6 +371,12 @@ ActiveRecord::Schema.define(:version => 20100210011008) do
   end
 
   add_index "tags", ["name"], :name => "index_tags_on_name"
+
+  create_table "testimonials", :force => true do |t|
+    t.integer "user_id"
+    t.string  "customer"
+    t.text    "testimonial"
+  end
 
   create_table "topics", :force => true do |t|
     t.integer  "forum_id"
@@ -415,6 +437,9 @@ ActiveRecord::Schema.define(:version => 20100210011008) do
     t.datetime "current_login_at"
     t.string   "current_login_ip"
     t.string   "last_login_ip"
+    t.string   "Name",                   :limit => 40
+    t.string   "Profession",             :limit => 40
+    t.string   "Phone",                  :limit => 40
   end
 
   add_index "users", ["activated_at"], :name => "index_users_on_activated_at"

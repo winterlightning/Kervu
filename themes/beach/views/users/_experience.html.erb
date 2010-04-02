@@ -1,0 +1,24 @@
+<div class="experience nested">
+	<% fields_for "user[experience_attributes][]", experience do |experience_form| %>
+	    <label>Title:</label> <%= experience_form.text_field :title, :index => nil %>
+		<label>Location:</label> <%= experience_form.text_field :location, :index => nil %>
+		<label>Beginning:</label> <%= experience_form.date_select :start, 
+										:start_year => 1926, 
+										:end_year => Time.now.year,
+										:order => [:month, :day, :year],
+										:index => nil  %>
+		<label>Ending:</label> <%= experience_form.date_select :end, 
+										:start_year => 1926, 
+										:end_year => Time.now.year,
+										:order => [:month, :day, :year],
+										:index => nil %>
+		<label>Description:</label> <%= experience_form.text_area :description, :index => nil %><br />
+	    <% if experience.new_record? %>
+			<%= link_to_function "Remove Experience", "$(this).up('.experience').remove()" %>
+		<% else %>
+			<%= link_to_function "remove", "mark_for_destroy(this)" %>
+			<%= experience_form.hidden_field :id, :index => nil %>
+			<%= experience_form.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>
+		<% end %>		
+	<% end %>
+</div>
