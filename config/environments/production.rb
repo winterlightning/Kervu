@@ -6,7 +6,7 @@ config.cache_classes = true
 
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
-config.action_controller.perform_caching             = true
+config.action_controller.perform_caching             = false
 config.action_view.cache_template_loading            = true
 
 # See everything in the log (default is :info)
@@ -27,4 +27,4 @@ config.action_view.cache_template_loading            = true
 # Enable threaded mode
 # config.threadsafe!
 
-APP_URL = "http://example.com"
+APP_URL = "http://kervu.com"

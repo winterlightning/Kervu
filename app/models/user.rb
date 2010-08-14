@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   has_many :experiences
   has_many :services
   has_many :testimonials
+  has_many :links  
+  accepts_nested_attributes_for :links, :reject_if => lambda { |a| a[:url].blank? }, :allow_destroy => true
+
   
   MALE    = 'M'
   FEMALE  = 'F'

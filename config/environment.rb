@@ -55,3 +55,5 @@ config.plugin_paths += ["#{RAILS_ROOT}/vendor/plugins/community_engine/plugins"]
   # config.i18n.default_locale = :de
 end
  require "#{RAILS_ROOT}/vendor/plugins/community_engine/config/boot.rb"
+ 
+SITE_NAME = 'http://kervu.com/'

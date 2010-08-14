@@ -72,8 +72,13 @@ class UsersController < BaseController
   
   def dashboard
     @user = current_user
-    @network_activity = @user.network_activity
-    @recommended_posts = @user.recommended_posts
+
+    @lastweek = fix_railstat_array(RailStat.find_by_days(:resource=>"/#{current_user.login}", :days => 7), 7)
+    @lastmonth = fix_railstat_array(RailStat.find_by_days(:resource=>"/#{current_user.login}", :days => 30), 30)
+  
+    @lastweek_craigslist = fix_railstat_array(RailStat.find_by_days(:resource=>"/craigslist/#{current_user.login}", :days => 7), 7)
+    @lastmonth_craigslist = fix_railstat_array(RailStat.find_by_days(:resource=>"/craigslist/#{current_user.login}", :days => 30), 30)
+  
   end
   
   def show  
@@ -100,6 +105,13 @@ class UsersController < BaseController
   def embedding  
     @user = current_user
     @photos = @user.photos.find(:all, :limit => 5)
+  end
+
+  def embedding_page  
+    @user = current_user
+    @photos = @user.photos.find(:all, :limit => 5)
+  
+  	render :layout => false
   end
   
   def new
@@ -128,6 +140,21 @@ class UsersController < BaseController
     @skills               = Skill.find(:all)
     @offering             = Offering.new
     @avatar               = Photo.new
+    
+    
+    if logged_in?
+      @user = current_user
+      cond = Caboose::EZ::Condition.new
+      cond.user_id == @user.id
+      if params[:tag_name]
+        cond.append ['tags.name = ?', params[:tag_name]]
+      end
+
+      @selected = params[:photo_id]
+      @photos = Photo.recent.find :all, :conditions => cond.to_sql, :include => :tags, :page => {:size => 10, :current => params[:page]}
+
+    end
+
   end
   
   def update
@@ -428,6 +455,17 @@ class UsersController < BaseController
     end
   end  
   
+  def send_contact_email
+    print "request: "
+    print(request)
+    print "params: "
+    print(params)
+    @user = User.find_by_login(params[:user])
+    UserNotifier.deliver_user_contact(params[:name], params[:email], params[:subject], params[:message], @user)
+  
+    render :layout => false
+  
+  end
 
   protected  
     def setup_metro_areas_for_cloud
@@ -448,5 +486,25 @@ class UsersController < BaseController
     def admin_or_current_user_required
       current_user && (current_user.admin? || @is_current_user) ? true : access_denied     
     end
+    
+  ## fill in missing railstat values
+  def fix_railstat_array(railstat_array, days)
+    index = 0
+    new_array = []
+  	(Date.today-days..Date.today).each do |day|
+     if railstat_array.nil? or railstat_array.empty? or railstat_array[index].nil? or railstat_array[index]['created_on'] != day
+  		  no_hits = RailStat.new 
+    		no_hits['total_hits'] = 0
+    		no_hits['unique_hits'] = 0
+    		no_hits['created_on'] = day
+  			new_array.push no_hits
+  		else
+  		  new_array.push railstat_array[index]
+  		  index += 1
+  		end
+  	end
+  	return new_array
+  end
+  
 
 end
