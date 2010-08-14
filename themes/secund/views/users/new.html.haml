@@ -1,0 +1,69 @@
+.block.small.left
+  .block_head
+    %h2 Why sign up?
+  .block_content
+    Here are some great reasons to sign up for Kervu:
+    <br />
+    %ul.list.checks
+      %li 
+        Create a website for your clients to reach you
+      %li 
+        Integrate your craigslist marketing with your website
+
+    -box :class => 'alt' do
+      %h3=:tips.l
+      %p
+        =:after_signing_up_youll_receive_an_e_mail_confirmation_message.l
+        =:click_the_activation_link_in_the_e_mail_to_log_in.l
+      %p= link_to :already_have_an_account.l, "/login"
+
+.block.small.right
+  .block_head
+    %h2
+      =:sign_up.l
+  .block_content        
+    -box do
+      = error_messages_for :user
+      - form_for :user, :url => users_path, :html => {:class => 'MainForm'} do |f|
+        %p
+          %label{"for"=>"user_login"} 
+            =:username.l
+            \:
+            %em=:required_your_username_must_not_contain_numerals_spaces_or_special_characters.l
+            %br
+          = f.text_field :login, :class=>"text small"
+        
+        %p
+          %label{"for"=>"user_email"}
+            =:e_mail_address.l
+            \:
+            %em=:required_we_will_send_a_confirmation_e_mail_to_the_address_you_enter.l
+          %br
+          = f.text_field :email, :class=>"text small"
+
+        %p
+          %label{"for"=>"user_birthdate"}
+            =:birthday.l
+            \:
+            %em=:required_you_must_be_at_least_years_old_to_sign_up.l_with_args(:min_age => AppConfig.min_age)
+          %br
+          = date_select :user, :birthday, {:start_year => (Time.now.year - AppConfig.max_age), :end_year => (Time.now.year - AppConfig.min_age)}
+
+        -if AppConfig.require_captcha_on_signup
+          .right{:style => 'margin-top:2em;'}= recaptcha_tags
+
+        %p
+          %label{"for"=>"user_password"}
+            =:type_your_password.l
+          %br
+          = f.password_field :password, :class=>"text small"
+        
+        %p  
+          %label{"for"=>"user_password_confirmation"}
+            =:re_type_your_password_to_confirm.l
+          %br
+          = f.password_field :password_confirmation, :class=>"text small"
+          
+        = hidden_field_tag :inviter_id, params[:inviter_id]
+        = hidden_field_tag :inviter_code, params[:inviter_code]
+        %p= submit_tag :sign_up.l, :class=>"submit mid"

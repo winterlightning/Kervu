@@ -1,0 +1,20 @@
+-unless AppConfig.closed_beta_mode
+  .block.small.left
+    .block_head
+      %h2 Can't login?
+    .block_content
+      =render :partial => 'shared/login_sidebar'
+
+.block.small.right
+  .block_head
+    %h2
+      =:forgot_your_username.l
+  .block_content  
+    -box do
+
+      - form_tag forgot_username_url, :class => 'MainForm' do
+        %p
+          %label{"for"=>"email"}=:enter_your_email_address.l+":"
+          = text_field_tag 'email', nil, :size => 35, :class=>"text small"
+        %p
+          = submit_tag :send_me_my_username.l, :class=>"submit long"

@@ -1,0 +1,36 @@
+.block
+  .block_head
+    %h2
+      Upload a new photo
+          
+  .block_content   
+    -box :class => "alt first_alt" do 
+      %h3=:get_started.l + ' ' + :upload_a_profile_photo.l
+      %p
+        =:photo_message.l :site => AppConfig.community_name
+      = link_to "&raquo; " + :skip_this_step.l, welcome_about_user_path(@user)
+      %br/
+      = link_to "&raquo; " + :go_to_your_profile.l, user_path(@user)
+
+    %br
+
+    -box do 
+      - form_tag( user_path(:welcome => 'about'), :method => 'put', :multipart =>true, :class => "MainForm") do
+        %h3=:profile_photo.l
+        %p.centered
+          = image_tag( @user.avatar_photo_url(:medium), :class => "right" )
+        
+        %p
+          %label
+            =:choose_a_photo_to_upload.l
+            %em          
+              - if @user.vendor?
+                =:vendor_avatar_hint.l
+              =:photos_should_be_x_pixels.l
+          = file_field :avatar, :uploaded_data, :size => "20"
+        
+    
+        %hr 
+        
+        %p
+          = submit_tag "Upload and continue", :class=>"submit long"

@@ -1,0 +1,101 @@
+.block
+  .block_head
+    %h2
+      Put in your service summary
+          
+  .block_content   
+    -box :class => "alt first_alt" do 
+      %h3
+        =:get_started.l + ' ' + :tell_us_about_yourself.l
+      
+      %p
+        Tell us about your local service and what you are offering. It would also be helpful to mention your approach to customer service and why it would be better to pick you over competitors.
+      
+      %p
+        =:remember_you_can_always_change_this_later.l
+      %p
+        = link_to "&raquo; "+  :skip_this_step.l, welcome_invite_user_path(@user)
+        %br
+        = link_to "&raquo; " + :go_to_your_profile.l, user_path(@user)
+  
+    - if @user.avatar_photo_url
+      -box :class => "alt" do 
+        %h3=:your_profile_photo.l
+        .centered
+          = @user.vendor ? "<div class='right_corner'><div class='community_pro'></div></div>" : ''
+          = image_tag( @user.avatar_photo_url(:medium), :class => "polaroid", :style=>"width:250px" )       
+  
+  
+    -box :class => "yui-b" do
+      - form_tag user_path(:welcome => 'invite'), :method => 'put', :multipart =>true, :class => "MainForm" do
+        %p
+          %label Name
+          %br
+          =text_field :user, :Name, :style=>"width:200px", :class=>"text small"
+        
+        %p
+          %label Profession
+          %br
+          =text_field :user, :Profession, :style=>"width:200px", :class=>"text small"
+        
+        %p
+          %label Phone
+          %br
+          =text_field :user, :Phone, :style=>"width:200px", :class=>"text small"
+        
+        %p
+          %h3=:about_me.l
+          = text_area :user, :description, :class => "wysiwyg", :style => "width:100%"
+
+        %p
+          %h3= :location.l
+          = render :partial => 'shared/location_chooser', :locals => {:selected_country => @user.country_id, :selected_state => @user.state_id, :selected_metro_area => @user.metro_area_id, :states => @states, :metro_areas => @metro_areas}
+        
+        %p
+          %label
+            =:zippostal_code.l
+          %br
+          = text_field :user, :zip, :style=>"width:90px", :class=>"text small"
+  
+        %h3=:birthday_gender.l
+        %p
+          %label
+            =:gender.l
+          %br
+          %label
+            = radio_button :user, :gender, User::MALE
+            =:male.l
+          %label
+            = radio_button :user, :gender, User::FEMALE
+            =:female.l
+  
+        %p
+          %label
+            =:birthday.l
+            \:
+          %br
+          = date_select :user, :birthday, {:start_year => 1926, :end_year => Time.now.year - 1}
+        
+        -box do 
+          %p
+            %h3= :tags.l 
+            #user_tags
+              = text_field_tag 'tag_list', @user.tag_list, {:autocomplete => "off", :class=>"text small"}
+              #tag_list_auto_complete.auto_complete
+              = auto_complete_field 'tag_list', {:url => { :controller => "tags", :action => 'auto_complete_for_tag_name'}, :tokens => [','] }
+            
+          %p    
+            %label
+              %em
+                =:you_could_tag_yourself.l
+                - if @user.vendor?
+                  =:custom_friendly_local.l
+                - else
+                  = AppConfig.meta_keywords.split(",")[0..3].join(", ")
+                %br
+                =:tags_are_comma_separated_keywords_that_describe_you.l
+          
+        %hr 
+              
+        %p
+          = submit_tag "Save and Continue", :class=>"submit long"

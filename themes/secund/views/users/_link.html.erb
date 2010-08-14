@@ -1,0 +1,5 @@
+<div class="url nested">
+	<% fields_for "user[link][]", link do |link_form| %>
+		<p><%= link_form.label :site, :site %><%= link_form.text_field :url, :index => nil, :class=>"text small" %></p>	
+	<% end %>
+</div>

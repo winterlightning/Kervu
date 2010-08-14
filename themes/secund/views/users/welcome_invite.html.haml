@@ -1,0 +1,30 @@
+.block
+  .block_head
+    %h2
+      Invite others to Kervu
+          
+  .block_content  
+    -box do
+      %h3
+        =:get_started.l + ' ' + "Invite people you know who will benefit from this service."
+      %p
+        ="The more people you invite the better our service becomes!"
+
+      - form_for(:invitation, :url => user_invitations_path(:user_id => @user.id), :html => {:class => "MainForm"} ) do |f|
+        %p
+          %label{"for"=>"email_addresses"} 
+            =:enter_e_mail_addresses.l
+            %em= :comma_separated.l
+            \:
+          = f.text_area :email_addresses , :size => "83x5"
+    
+        %p
+          %label{"for"=>"message"}=:write_a_message.l
+          = f.text_area :message, :size => "83x5", :value => "#{AppConfig.community_name} "+:is_great_check_it_out_youll_love_it.l+" #{}"
+      
+        %hr
+    
+        %p
+          = submit_tag :send_invitations.l, :class=>"submit long"
+          %br/
+          = link_to "&raquo; "+ :skip_this_and_go_to_your_profile.l, user_path(@user)

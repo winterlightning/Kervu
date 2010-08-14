@@ -1,0 +1,96 @@
+<div class="block">
+			
+				<div class="block_head">	
+					<h2>Web stats</h2>
+					
+					<ul class="tabs">
+						<li><a href="#days">Week</a></li>
+						<li><a href="#months">Month</a></li>
+
+					</ul>
+				</div>		<!-- .block_head ends -->
+				
+				
+				
+				<div class="block_content tab_content" id="days">
+					
+					<table class="stats" cellpadding="0" cellspacing="0" width="100%">
+					
+						<thead>
+							<tr>
+								<td>&nbsp;</td>
+							    <% for day in @lastweek -%>
+									  <th scope="col"><%="#{day['created_on'].month}/#{day['created_on'].day}" %></th>
+							    <% end -%>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<tr>
+								<th scope="row">Page views</th>
+							    <% for day in @lastweek -%>
+							          <td><%=day['total_hits']%></td>
+							    <% end -%>
+							</tr>
+							
+							<tr>
+								<th scope="row">Craigslist views</th>
+							    <% for day in @lastweek_craigslist -%>
+							          <td><%=day['total_hits']%></td>
+							    <% end -%>
+							</tr>
+							
+							
+							<tr>
+								<th scope="row">Unique visitors</th>								
+							    <% for day in @lastweek -%>
+							          <td><%=day['unique_hits']%></td>
+							    <% end -%>
+							</tr>
+
+						</tbody>
+					</table>	
+								
+				</div>		<!-- .block_content ends -->
+				
+				<div class="block_content tab_content" id="months">
+					
+					<table class="stats" cellpadding="0" cellspacing="0" width="100%">
+					
+					<thead>
+							<tr>
+								<td>&nbsp;</td>
+							    <% for day in @lastmonth -%>
+									  <th scope="col"><%="#{day['created_on'].month}/#{day['created_on'].day}" %></th>
+							    <% end -%>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<tr>
+								<th scope="row">Page views</th>
+							    <% for day in @lastmonth -%>
+							          <td><%=day['total_hits']%></td>
+							    <% end -%>
+							</tr>
+							
+							<tr>
+								<th scope="row">Craigslist views</th>
+							    <% for day in @lastmonth_craigslist -%>
+							          <td><%=day['total_hits']%></td>
+							    <% end -%>
+							</tr>
+							
+							<tr>
+								<th scope="row">Unique visitors</th>								
+							    <% for day in @lastmonth -%>
+							          <td><%=day['unique_hits']%></td>
+							    <% end -%>
+							</tr>
+
+						</tbody>
+					</table>	
+				
+				</div>		<!-- .block_content ends -->
+				
+			</div>		<!-- .block ends -->

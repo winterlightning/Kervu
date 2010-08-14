@@ -1,0 +1,64 @@
+.block
+  .block_head
+    %h2=:you_are_editing_your_account.l 
+  .block_content  
+    -form_tag update_account_user_url(@user), :method => 'put', :class => "MainForm", :multipart => true do  
+    
+      = error_messages_for :user
+    
+      -box :class => "yui-b" do
+        %p
+          %label=:username.l
+          %br
+          = text_field :user, :login, :size => "28", :class=>"text small"
+
+        %p    
+          %label=:e_mail_address.l
+          %br
+          = text_field :user, :email, :size => "28", :class=>"text small"
+
+        %p    
+          %label=:password.l
+          %br
+          = password_field :user, :password, :size => "28", :class=>"text small"
+
+        %p    
+          %label=:confirm_password.l
+          %br
+          = password_field :user, :password_confirmation, :size => "28", :class=>"text small"
+    
+      #yui-main
+        -box :class => "yui-b" do
+          %p
+            %h3=:e_mail_notification.l
+            %label 
+              = check_box :user, :notify_friend_requests        
+              =:notify_of_friend_requests.l :site => AppConfig.community_name
+              
+            %label
+              = check_box :user, :notify_comments         
+              = :notify_of_comments.l :site => AppConfig.community_name
+              
+            %label
+              = check_box :user, :notify_community_news
+              =:notify_email_updates.l :site => AppConfig.community_name
+              
+          %p
+            %h3=:profile_privacy.l
+         
+            %label
+              =:make_my_profile_public.l
+            = check_box :user, :profile_public
+            %br
+            %em
+              =:when_checked_your_profile_will_be_visible_to_anyone.l
+          
+          %hr
+                   
+          %p= submit_tag :save_changes.l, :class=>"submit mid"
+    
+          %p
+            =link_to :deactivate_link.l, deactivate_user_path(@user), :method => :put, :confirm => :deactivate_confirmation.l
+            %br
+            %label
+              %em= :deactivate_tip.l

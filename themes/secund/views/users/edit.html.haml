@@ -1,0 +1,238 @@
+.block
+  .block_head
+    %h2
+      Edit Profile
+    
+    %ul{:class=> "tabs"}
+      %li
+        %a{:href=>"#tab1"}
+          Personal Info
+      %li
+        %a{:href=>"#tab2"}
+          Experiences
+      %li
+        %a{:href=>"#tab3"}
+          Testimonial
+      %li
+        %a{:href=>"#tab4"}
+          Services 
+      %li
+        %a{:href=>"#tab5"}
+          Links        
+  
+  - form_tag user_url(@user), :method => 'put', :multipart =>true, :class => 'MainForm' do  
+    .block_content.tab_content#tab1
+      -box :id => "profile_details" do
+        %h3=:profile_photo.l
+        = @user.vendor ? "<div class='right_corner'><div class='community_pro'></div></div>" : ''
+        = image_tag( @user.avatar_photo_url(:medium), :class => "polaroid" )
+        %br
+        %p{:class=>"file upload"}
+          %label
+            =:choose_a_photo_for_your_profile.l
+          %br
+          = file_field :avatar, :uploaded_data, :size => "20"
+        
+        %h3 Basic Info
+        %p
+          %label Name
+          %br
+          =text_field :user, :Name, :style=>"width:200px", :class=>"text small"
+        
+        %p
+          %label Profession
+          %br
+          =text_field :user, :Profession, :style=>"width:200px", :class=>"text small"
+        
+        %p
+          %label Phone
+          %br
+          =text_field :user, :Phone, :style=>"width:200px", :class=>"text small"
+        
+        %p
+          %h3=:about_me.l
+          = text_area :user, :description, :class => "wysiwyg", :style => "width:100%"
+
+        %p
+          %h3= :location.l
+          = render :partial => 'shared/location_chooser', :locals => {:selected_country => @user.country_id, :selected_state => @user.state_id, :selected_metro_area => @user.metro_area_id, :states => @states, :metro_areas => @metro_areas}
+        
+        %p
+          %label
+            =:zippostal_code.l
+          %br
+          = text_field :user, :zip, :style=>"width:90px", :class=>"text small"
+  
+        %h3=:birthday_gender.l
+        %p
+          %label
+            =:gender.l
+          %br
+          %label
+            = radio_button :user, :gender, User::MALE
+            =:male.l
+          %label
+            = radio_button :user, :gender, User::FEMALE
+            =:female.l
+  
+        %p
+          %label
+            =:birthday.l
+            \:
+          %br
+          = date_select :user, :birthday, {:start_year => 1926, :end_year => Time.now.year - 1}
+        
+      -box do 
+        %p
+          %h3= :tags.l 
+          #user_tags
+            = text_field_tag 'tag_list', @user.tag_list, {:autocomplete => "off", :class=>"text small"}
+            #tag_list_auto_complete.auto_complete
+            = auto_complete_field 'tag_list', {:url => { :controller => "tags", :action => 'auto_complete_for_tag_name'}, :tokens => [','] }
+          
+        %p    
+          %label
+            %em
+              =:you_could_tag_yourself.l
+              - if @user.vendor?
+                =:custom_friendly_local.l
+              - else
+                = AppConfig.meta_keywords.split(",")[0..3].join(", ")
+              %br
+              =:tags_are_comma_separated_keywords_that_describe_you.l
+          
+          %hr 
+              
+          %p
+            = submit_tag :save_changes.l, :class=>"submit mid"
+    
+    .block_content.tab_content#tab2     
+      -box do
+        %h3 Experience
+        %div{:id => "experiences"} 
+          = render :partial => 'users/experience', :collection => @user.experiences
+        
+        = add_experience_link "Add Experience"      
+
+        %hr 
+        
+        %p
+          = submit_tag :save_changes.l, :class=>"submit mid"          
+
+    .block_content.tab_content#tab3         
+      -box do 
+        %h3 Testimonial
+        %div{:id => "testimonials"} 
+          = render :partial => 'users/testimonial', :collection => @user.testimonials
+        = add_testimonial_link "Add Testimonial"
+
+        %hr 
+
+        %p
+          = submit_tag :save_changes.l, :class=>"submit mid"
+
+    .block_content.tab_content#tab4
+      -box do           
+        %h3 Services
+        %div{:id => "services"} 
+          = render :partial => 'users/service', :collection => @user.services
+        = add_service_link "Add Service"
+
+        %hr 
+        
+        %p
+          = submit_tag :save_changes.l, :class=>"submit mid"
+
+    .block_content.tab_content#tab5
+      -box do           
+        %h3 Links
+        %div{:id => "links"} 
+          %p
+            %label
+              %img{:src=>"/cv/images/social-icons/facebook.png", :style=>"position: relative; top: 5px;"}
+              Facebook
+            =text_field :user, :facebook_link, :style=>"width:200px", :class=>"text small"
+
+          %p
+            %label
+              %img{:src=>"/cv/images/social-icons/linkedin.png", :style=>"position: relative; top: 5px;"}
+              Linked In
+            =text_field :user, :linkedin_link, :style=>"width:200px", :class=>"text small"
+
+          %p
+            %label
+              %img{:src=>"/cv//images/social-icons/myspace.png", :style=>"position: relative; top: 5px;"}
+              Myspace
+            =text_field :user, :myspace_link, :style=>"width:200px", :class=>"text small"
+
+          %p
+            %label
+              %img{:src=>"/cv/images/social-icons/twitter.png", :style=>"position: relative; top: 5px;"}
+              Twitter
+            =text_field :user, :twitter_link, :style=>"width:200px", :class=>"text small"
+            
+          %p
+            %label
+              %img{:src=>"/cv/images/social-icons/flickr.png", :style=>"position: relative; top: 5px;"}
+              Flickr
+            =text_field :user, :flickr_link, :style=>"width:200px", :class=>"text small"          
+	
+        %hr 
+        
+        %p
+          = submit_tag :save_changes.l, :class=>"submit mid"
+           
+
+.block
+  .block_head
+    %h2
+      Edit Pictures
+     
+    %ul
+      %li
+        %a{ :href=>"#form", :onclick=>"$.facebox($('#form'))"}
+          Add Picture
+          
+  .block_content
+    %ul{:class=>"imglist"}
+      - @photos.each do |photo|
+        %li
+          =image_tag( photo.public_filename(:thumb))
+          %ul
+            %li{:class=>"view" }
+              %a{:href => "#{photo.public_filename }", :rel=>"facebox"}
+                View
+            %li{:class=>"delete"}
+              =link_to("Delete", user_photo_path(@user, photo), :method => :delete)
+
+.hider{:style=>"display:none;"}           
+  #form
+    .block              
+      .block_content               
+        - form_for(:photo, :url => user_photos_path(:user_id => current_user.id, :album_id => params[:album_id]), :html => {:multipart =>true, :class => "MainForm", :id => "photoform"} ) do |f|
+          %p
+            Upload your picture file
+          %p{:class=>"file upload"}
+            %br
+            = f.file_field :uploaded_data, :size => "20"
+          
+          %p
+            %label 
+              =:title.l + ":"
+            %br
+            = f.text_field :name, :size => 35, :class=>"text small"
+         
+          %p
+            %label
+              =:description.l + ":"
+            %br
+            = f.text_area :description, :size => "58x5"
+        
+          - unless params[:album_id] || current_user.albums.empty?
+            %label
+              =:assign_album.l + ":"
+            = select_tag 'album_selected', options_for_select([''] +current_user.albums.collect{ |album| [album.title, album.id] })
+        
+          %p
+            = submit_tag :create.l, :class=>"submit mid"
+            

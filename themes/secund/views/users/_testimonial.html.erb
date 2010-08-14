@@ -1,0 +1,14 @@
+<div class="testimonial nested">
+	<% fields_for "user[testimonial_attributes][]", testimonial do |testimonial_form| %>
+		<p><label>Review:</label> <%= testimonial_form.text_area :testimonial, :index => nil, :class=>"wysiwyg" %></p>
+		<p><label>Customer:</label> <%= testimonial_form.text_field :customer, :index => nil, :class=>"text small" %></p>
+
+	    <% if testimonial.new_record? %>
+			<%= link_to_function "Remove testimonial", "$(this).parent('.nested').remove()" %>
+		<% else %>
+			<%= link_to_function "remove", "mark_for_destroy(this)" %>
+			<%= testimonial_form.hidden_field :should_destroy, :index => nil, :class => 'should_destroy', :value => '0' %>
+			<%= testimonial_form.hidden_field :id, :index => nil %>
+		<% end %>		
+	<% end %>
+</div>

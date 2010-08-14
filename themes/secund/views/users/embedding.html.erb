@@ -1,0 +1,229 @@
+
+<div class="block">
+	
+	<div class="block_head">
+		<h2>Embedding a Craigslist Post</h2>
+	</div>		
+	
+	<div class="block_content">
+	
+		<form class="MainForm">
+		<h3>Craigslist Posting</h3>
+		<label>To post on craigslist, select all the content in the text area and copy it to Craigslist to post it. Click in the text area and use Ctrl-A to select it and Ctrl-C to copy it.</label>
+		<br />
+		<textarea cols="40" >
+	<table border="0" cellspacing="5" cellpadding="0" width="100%" bgcolor="#222222" align="center" style="padding-top: 30px; padding-bottom: 30px;" >
+	  <tbody>
+	    <tr>
+	      <td valign="top" align="center">
+	        <table border="0" cellspacing="1" cellpadding="10" width="700" bgcolor="#c0c0c0" align="center">
+	          <tbody>
+	            <tr>
+	              <td bgcolor="#ffffff" valign="top">
+	                <div style="text-align: left; font-family: Arial, Helvetica, sans-serif">
+	                  <table cellspacing="0" cellpadding="0" width="100%">
+	                    <tbody>
+	                   	  <tr>
+	                   	  	<td><img src="http://<%= request.host_with_port %>/secund/images/headerTop.png" /></td>
+	                   	  </tr>
+	                      <tr>
+	                        <td bgcolor="#468DE9" width="100%" style="color: #fff; padding: 5px 10px;" >
+	                          <font size="4">
+								<strong><%= @user.Name %></strong> <br /> <%= @user.Profession %>
+	                          </font>
+	                        </td>
+	                      </tr>
+	                    </tbody>
+	                  </table>
+	                  <table cellspacing="0" cellpadding="0" width="100%">
+	                    <tbody>
+	                      <tr>
+	                        <td height="12" width="372" colspan="2">
+	                        </td>
+	                        <td bgcolor="#d5d5d5" height="12" width="1">
+	                        </td>
+	                        <td height="12" width="280" colspan="2">
+	                        </td>
+	                      </tr>
+	                      <tr>
+	                        <td valign="top" width="358">
+									<table cellspacing="0" cellpadding="5" width="100%">
+									<% @user.services.each do |service| %>
+									<tr>
+										<td valign="top">
+											<div style="color: #777">
+												<font size="5"><strong>
+													<% unless service.rate.nil? || service.rate == "" %>$<%= service.rate %><% end %>
+												</strong></font>
+											</div>
+										</td>
+										<td><strong><font size="2"><%= service.title %></font></strong><br />
+										<font size="2"><%= service.description %></font>
+										</td>
+									</tr>
+									<% end %>
+									</table>                         
+	                          <br />
+	                          <table cellspacing="1" cellpadding="2" width="100%" >
+	                            <tbody>
+	                              <tr>
+	                                <td bgcolor="#ffffff" style="color: #468DE9">
+	                                  <font size="3">
+	                                    &nbsp;<img src="http://<%= request.host_with_port %>/secund/images/headingArrow.gif" />&nbsp;About Me
+	                                  </font>
+	                                </td>
+	                              </tr>
+	                              <tr>
+	                                <td height="1">
+	                                	<img src="http://<%= request.host_with_port %>/secund/images/hr.jpg" />
+	                                </td>
+	                              </tr>
+	                            </tbody>
+	                          </table>
+	                          <div style="color: #333333">
+	                          	<br />
+	                            <font size="2">
+									<%= @user.description %>
+	                            </font>
+	                            <br />
+	                          </div>
+							  
+							  <table cellspacing="1" cellpadding="2" width="100%">
+	                            <tbody>
+	                              <tr>
+	                                <td bgcolor="#ffffff" style="color: #468DE9">
+	                                  <font size="3">
+	                                    &nbsp;<img src="http://<%= request.host_with_port %>/secund/images/headingArrow.gif" />&nbsp;Images
+	                                  </font>
+	                                </td>
+	                              </tr>
+	                              <tr>
+	                                <td height="1">
+	                                	<img src="http://<%= request.host_with_port %>/secund/images/hr.jpg" />
+	                                </td>
+	                              </tr>
+	                            </tbody>
+	                          </table>
+							  
+							  <br />
+							  
+							  <% @photos.each do |photo| %>
+								<%= image_tag( "http://"+request.host_with_port + photo.public_filename(:thumb), :class => "lightbox", :alt => photo.display_name) %>
+							  <% end %>
+							  
+	                        </td>
+	                        <td width="14">
+	                        </td>
+	                        <td bgcolor="#d5d5d5" width="1">
+	                        </td>
+	                        <td width="14">
+	                        </td>
+	                        <td valign="top" width="290">
+	
+	                     
+	                          <table cellspacing="1" cellpadding="2" width="100%" bgcolor="#ffffff">
+	                            <tbody>
+	                              <tr>
+	                                <td>
+	                                  <div style="color: #468DE9">
+	                                    <font size="3">
+	                                       &nbsp;<img src="http://<%= request.host_with_port %>/secund/images/headingArrow.gif" />&nbsp;Contact Me!
+	                                    </font>
+	                                  </div>
+	                                </td>
+	                              </tr>
+	                              <tr>
+	                                <td height="1">
+	                                </td>
+	                              </tr>
+	                            </tbody>
+	                          </table>
+	                          <table cellspacing="0" cellpadding="5">
+	                            <tbody>
+	                              <tr>
+	                              	<td valign="top">
+	                              		<%= image_tag( "http://"+request.host_with_port+@user.avatar_photo_url(:medium), :class => "polaroid")%>
+									</td>
+	                              </tr>	
+	                              <tr>
+	                                <td valign="top">
+	                                  <font color="#333333" size="2">
+	                                    <b><%= @user.Name %></b><br />Phone: <%= @user.Phone %><br />
+	                                    <a href="mailto:<%= @user.email %>" rel="nofollow">
+	                                      <%= @user.email %>
+	                                    </a>
+	                                    <br /><br />
+	                                    <a href="<%= 'http://'+ request.host_with_port + "/" + @user.login %>" rel="nofollow">
+										
+	                                      View the website
+	                                    </a>
+	                                    <br />
+	                                  </font>
+	                                </td>
+	                              </tr>
+	                            </tbody>
+	                          </table>
+							  <br />
+							  <table cellspacing="1" cellpadding="2" width="100%" bgcolor="#ffffff">
+	                            <tbody>
+	                              <tr>
+	                                <td bgcolor="#ffffff" style="color: #468DE9">
+	                                  <font size="3">
+	                                    &nbsp;<img src="http://<%= request.host_with_port %>/secund/images/headingArrow.gif" />&nbsp;Testimonial
+	                                  </font>
+	                                </td>
+	                              </tr>
+	                              <tr>
+	                                <td height="1"><img src="http://<%= request.host_with_port %>/secund/images/hr2.jpg" />
+	                                </td>
+	                              </tr>
+	                            </tbody>
+	                          </table>
+							  <font size="2">
+	                          <% @user.testimonials.each do |testimonial| %>
+							  <p>
+							  	<%= testimonial.testimonial %><br />
+								<i>-<%= testimonial.customer %></i>
+							  </p>
+							  <% end %>
+							  </font>
+	                          <br />
+							  
+							  
+	                        </td>
+	                      </tr>
+	                    </tbody>
+	                  </table>
+	                  <br />
+	                  <table cellspacing="0" cellpadding="0" width="100%">
+	                    <tbody>
+	                      <tr>
+	                        <td align="right">
+	                          <hr />
+	                          <font size="1">
+	                            <a target="_blank" href="http://<%= request.host_with_port %>" rel="nofollow">
+	                              Powered By Kervu.com
+	                            </a>
+								
+	  								<img src="http://<%= request.host_with_port %>/craigslist/<%= @user.login %>" width="1" height="1" alt="" style="position: absolute;" />
+								
+	                          </font>
+	                        </td>
+	                      </tr>
+	                    </tbody>
+	                  </table>
+	                </div>
+	              </td>
+	            </tr>
+	          </tbody>
+	        </table>
+	      </td>
+	    </tr>
+	  </tbody>
+	</table>
+		</textarea>
+		</form>
+	<br />
+	</div>
+
+</div>

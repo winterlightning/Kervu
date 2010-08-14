@@ -1,0 +1,32 @@
+%p
+  %span#location_chooser
+    %label
+      = :country.l 
+    = select_tag(:country_id, '<option></option>'+options_from_collection_for_select(Country.find_countries_with_metros, "id", "name", selected_country), {:style => "width:100px"})
+  
+    %label
+      = :state.l  
+    = select_tag(:state_id, '<option></option>' + options_from_collection_for_select(states, "id", "name", (selected_state rescue nil)), {:style => "width:100px", :disabled => states.empty? })
+  
+    = image_tag 'spinner.gif', :plugin => 'community_engine', :style => 'display:none;', :id=> "statespin"
+  
+    %label
+      = :metro_area.l
+ 
+    = select_tag(:metro_area_id, options_from_collection_for_select(metro_areas, "id", "name", (selected_metro_area rescue nil)), {:style => "width:100px", :disabled => metro_areas.empty? })
+  
+    = image_tag 'spinner.gif', :plugin => 'community_engine', :style => 'display:none;', :id=> "areaspin"
+  
+  = observe_field("state_id", {:url => {:controller => 'users', :action => 'metro_area_update'}, |
+    :with => "'state_id=' + $('#state_id').val() + '&country_id=' + $('#country_id').val()", |
+    :loading => "$('#statespin').show();", |
+    500 => "alert('"+:sorry_there_was_an_error.l+"'); return false", |
+    :update => "location_chooser"}) |
+  
+  %span
+  
+  = observe_field("country_id", {:url => {:controller => 'users', :action => 'metro_area_update'}, |
+    :with => "country_id", |
+    :loading => "$('#statespin').show();", |
+    500 => "alert('"+:sorry_there_was_an_error.l+"'); return false", |
+    :update => "location_chooser"}) |
