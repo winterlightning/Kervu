@@ -49684,3 +49684,41 @@ Processing UsersController#show to ico (for 69.117.143.248 at 2010-08-14 02:41:0
   Parameters: {"id"=>"favicon"}
 Filter chain halted as [:find_user] rendered_or_redirected.
 Completed in 665ms (View: 661, DB: 1) | 406 Not Acceptable [http://kervu.com/favicon.ico]
+
+
+Processing UsersController#show (for 87.250.254.242 at 2010-08-14 03:00:17) [GET]
+  Parameters: {"id"=>"johnsmith"}
+Rendering users/show
+Completed in 36ms (View: 17, DB: 6) | 200 OK [http://kervu.com/johnsmith]
+
+
+Processing UsersController#show to com (for 87.250.254.242 at 2010-08-14 03:05:58) [GET]
+  Parameters: {"id"=>"testingkervu@gmail"}
+Filter chain halted as [:find_user] rendered_or_redirected.
+Completed in 869ms (View: 866, DB: 1) | 406 Not Acceptable [http://kervu.com/testingkervu@gmail.com]
+
+
+Processing BaseController#site_index (for 70.114.143.65 at 2010-08-14 03:07:21) [GET]
+Rendering template within layouts/application
+Rendering base/site_index
+Completed in 24ms (View: 4, DB: 4) | 200 OK [http://kervu.com/]
+
+
+Processing ApplicationController#index (for 70.114.143.65 at 2010-08-14 03:07:22) [GET]
+
+ActionController::RoutingError (No route matches "/secund/secund/images/bg.jpg" with {:method=>:get}):
+  
+
+Rendering /home/ray/CommunityEngine/test/public/404.html (404 Not Found)
+
+
+Processing UsersController#show to ico (for 70.114.143.65 at 2010-08-14 03:07:24) [GET]
+  Parameters: {"id"=>"favicon"}
+Filter chain halted as [:find_user] rendered_or_redirected.
+Completed in 669ms (View: 665, DB: 1) | 406 Not Acceptable [http://kervu.com/favicon.ico]
+
+
+Processing UsersController#show to ico (for 70.114.143.65 at 2010-08-14 03:07:27) [GET]
+  Parameters: {"id"=>"favicon"}
+Filter chain halted as [:find_user] rendered_or_redirected.
+Completed in 805ms (View: 802, DB: 0) | 406 Not Acceptable [http://kervu.com/favicon.ico]
