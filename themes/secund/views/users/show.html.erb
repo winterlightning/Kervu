@@ -45,7 +45,7 @@
 	
 	<link rel="stylesheet" type="text/css" href="/cv/js/fancybox/jquery.fancybox-1.2.6.css" media="screen" />
 	<script type="text/javascript" src="/cv/js/fancybox/jquery.fancybox-1.2.6.pack.js"></script>
-	<script type="text/javascript" src="/javascripts/jquery.form.js"></script>
+	<script type="text/javascript" src="/cv/js/jquery.form.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("a.lightbox").fancybox({
@@ -82,6 +82,8 @@
 		
 		function showResponse(responseText, statusText, xhr, $form)  {
 		   	$("#returnP").wait().fadeOut("slow");
+			
+			$("#emailsubmit").removeAttr('disabled');
 		};
 		
 		
@@ -94,7 +96,10 @@
 		
 		    var options = { 
 		        target:        '#returnmessage',   // target element(s) to be updated with server response 
-		        success:       showResponse
+		        success:       showResponse,
+				beforeSubmit: function(arr, $form, options) { 
+					$("#emailsubmit").attr("disabled", "true"); 
+				}
 		    }; 		
 			
 			//bind the email submit form to be ajax submission
@@ -313,7 +318,7 @@
 				</p>
 				
 				<p>
-					<%= submit_tag "submit" %>
+					<%= submit_tag "submit", :id => 'emailsubmit' %>
 					<!--<input class="btn" type="reset" name="submit" value="Reset" />-->
 				</p>
 
