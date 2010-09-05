@@ -580,3 +580,9 @@ a:hover {
 	float: right;
 	text-align: right;
 	}
+
+h1 img {
+	left:-3px;
+	position:relative;
+	top:8px;
+}
